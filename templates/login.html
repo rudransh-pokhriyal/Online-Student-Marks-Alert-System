@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+        background-color: #F3EBF6;
+        font-family: 'Ubuntu', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    .main {
+        background-color: #FFFFFF;
+        width: 300px;
+        padding: 20px;
+        border-radius: 1.5em;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+        text-align: center;
+    }
+    
+    .sign {
+        color: #8C55AA;
+        font-weight: bold;
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+    
+    .input-field {
+        width: 80%;
+        padding: 10px 15px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 20px;
+        background: rgba(136, 126, 126, 0.04);
+        font-size: 14px;
+        font-family: 'Ubuntu', sans-serif;
+        outline: none;
+        box-sizing: border-box;
+        border: 2px solid rgba(0, 0, 0, 0.02);
+        text-align: center;
+    }
+    
+    .input-field:focus {
+        border: 2px solid rgba(0, 0, 0, 0.18);
+    }
+    
+    .submit {
+        cursor: pointer;
+        border-radius: 20px;
+        color: #fff;
+        background: linear-gradient(to right, #9C27B0, #E040FB);
+        border: 0;
+        padding: 10px 20px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+        margin-top: 20px;
+        width: 80%;
+    }
+    
+    a {
+        color: #E1BEE7;
+        text-decoration: none;
+    }
+    
+    .register-link {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+    
+    .register-link a {
+        color: #8C55AA;
+    }
+    
+    .show-password-container {
+        position: relative;
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .show-password-container .input-field {
+        margin: 0;
+        padding-right: 40px;
+    }
+    
+    .show-password-icon {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        color: rgba(136, 126, 126, 0.75);
+    }
+    
+    .show-password-icon:hover {
+        color: rgba(136, 126, 126, 1);
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h2 class="sign">Sign in</h2>
+    
+    <!-- Flash messages section -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <!-- End flash messages section -->
+
+    <form method="POST" action="{{ url_for('login') }}" onsubmit="return validateForm()">
+      <div class="form-group">
+        <input type="text" class="input-field" id="username" name="username" placeholder="Username" required>
+        <i class="fa fa-user"></i>
+      </div>
+      <div class="form-group show-password-container">
+        <input type="password" class="input-field" id="password" name="password" placeholder="Password" required>
+        <i class="fa fa-eye show-password-icon" id="togglePassword"></i>
+      </div>
+      <button type="submit" class="submit">Sign in</button>
+    </form>
+    <div class="register-link">
+      <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    
+    togglePassword.addEventListener('click', function () {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+
+  </script>
+</body>
+</html>
